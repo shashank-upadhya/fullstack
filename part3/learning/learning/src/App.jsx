@@ -14,7 +14,7 @@ const App = () => {
   useEffect(() => {
     //console.log('effect')
     axios
-      .get("http://localhost:3001/api/notes")
+      .get("https://fullstackopen-6.onrender.com/api/notes")
       .then(response => {
         console.log('promise fulfilled')
         setNotes(response.data)
@@ -33,7 +33,7 @@ const App = () => {
   }, [])
 
   const toggleImportanceOf = (id) => {
-    const url = `http://localhost:3001/api/notes/${id}`
+    const url = `https://fullstackopen-6.onrender.com/api/notes/${id}`
     const note = notes.find(n => n.id === id)
     const changedNote = { ...note, important: !note.important }
 
@@ -70,7 +70,7 @@ const App = () => {
     }
 
     axios
-      .post("http://localhost:3001/api/notes", noteObject)
+      .post("https://fullstackopen-6.onrender.com/api/notes", noteObject)
       .then(response => {
         setNotes(notes.concat(response.data))
         setNewNote('')
