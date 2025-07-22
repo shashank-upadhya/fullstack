@@ -2,7 +2,7 @@ const express= require('express')
 // const http =require('http')
 const app=express()
 const cors=require('cors')
-app.use(cors)
+app.use(cors())
 let notes = [
   {
     id: "1",
