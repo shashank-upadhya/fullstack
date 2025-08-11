@@ -5,7 +5,7 @@ import axios from 'axios'
 import './index.css'
 import App from './App.jsx'
 
-axios.get('http://localhost:3001/api/notes').then(response => {
+axios.get('https://fullstackopen-6.onrender.com/api/notes').then(response => {
 
   const notes = response.data
   ReactDOM.createRoot(document.getElementById('root')).render(
