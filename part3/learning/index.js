@@ -1,3 +1,5 @@
+require('dotenv').config()
+const Note=require('./models/note')
 const express= require('express')
 // const http =require('http')
 const app=express()
@@ -27,6 +29,7 @@ let notes = [
 // })
 
 app.use(express.json()) //To access data easily Express json-parser
+app.use(express.static('dist'))
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -36,14 +39,27 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
+// if (process.argv.length < 3) {
+//   console.log('give password as argument')
+//   process.exit(1)
+// }
+
+// const password = process.argv[2]
+
+// const url = `mongodb+srv://shashankupadhya813:${password}@cluster0.jybhqzb.mongodb.net/noteApp?retryWrites=true&w=majority&appName=Cluster0`
+
+
+
 app.use(requestLogger)
 
 app.get('/',(request,response)=>{
   response.send('<h1>Hello World</>')
 })
 
-app.get('/api/notes/',(request,response)=>{
-  response.json(notes)
+app.get('/api/notes', (request, response) => {
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
 })
 
 app.get('/api/notes/:id',(request,response)=>{
@@ -78,16 +94,25 @@ app.post('/api/notes/',(request,response)=>{
     })
   }
 
-  const note={
-    content:body.content,
-    importnant:body.important||false,
-    id:generatedId()
-  }
-  
-  notes=notes.concat(note)
+  const note = new Note({
+    content: body.content,
+    important: body.important||false
+  })
 
-  console.log(note)
-  response.json(note)
+  note.save().then(savedNote=>{
+    response.json(savedNote)
+  })
+
+  // const note={
+  //   content:body.content,
+  //   important:body.important||false,
+  //   id:generatedId()
+  // }
+  
+  // notes=notes.concat(note)
+
+  // console.log(note)
+  // response.json(note)
 })
 
 const unknownEndpoint = (request, response) => {
