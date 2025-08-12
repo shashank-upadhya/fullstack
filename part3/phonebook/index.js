@@ -1,3 +1,5 @@
+require('dotenv').config()
+const Person=require('./models/contact')
 const express=require('express')
 const morgan=require('morgan')
 const cors=require('cors')
@@ -44,7 +46,10 @@ app.get('/',(request,response)=>{
 })
 
 app.get('/api/persons/',(request,response)=>{
-  response.json(persons)
+  Person.find({}).then(persons=>{
+    response.json(persons)
+  })
+  
 })
 
 app.get('/info',(request,response)=>{
@@ -97,11 +102,20 @@ app.post('/api/persons/',(request,response)=>{
     })
   }
 
-  const person={
-    id:generatedId(),
+  const person=new Person({
     name:body.name,
     number:body.number
-  }
+  })
+
+  person.save().then(savedPerson=>{
+    response.json(savedPerson)
+  })
+
+  // const person={
+  //   id:generatedId(),
+  //   name:body.name,
+  //   number:body.number
+  // }
 
   persons=persons.concat(person)
 
