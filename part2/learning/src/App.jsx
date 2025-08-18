@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import Note from './components/Note'
-import axios from 'axios'
 import noteService from './services/notes'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
@@ -9,37 +8,25 @@ const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(false)
-  const [errorMessage,setErrorMessage]=useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
-    //console.log('effect')
-    axios
-      .get("http://localhost:3002/notes")
-      .then(response => {
-        console.log('promise fulfilled')
-        setNotes(response.data)
-      })
-  }, [])
-  console.log('render', notes.length, 'notes')
-
-  const showNotes = showAll ? notes : notes.filter(note => note.important === true)
-
-  useEffect(() => {
+    console.log('effect')
     noteService
       .getAll()
       .then(initialNotes => {
+        console.log('promise fulfilled')
         setNotes(initialNotes)
       })
   }, [])
 
+  console.log('render', notes.length, 'notes')
+
+  const showNotes = showAll ? notes : notes.filter(note => note.important === true)
+
   const toggleImportanceOf = (id) => {
-    const url = `http://localhost:3002/notes/${id}`
     const note = notes.find(n => n.id === id)
     const changedNote = { ...note, important: !note.important }
-
-    axios.put(url, changedNote).then(response => {
-      setNotes(notes.map(note => note.id === id ? response.data : note))
-    })
 
     noteService
       .update(id, changedNote)
@@ -48,34 +35,21 @@ const App = () => {
       })
       .catch(error => {
         setErrorMessage(
-          `Note ${note.content} was already removed from the server`
+          `Note '${note.content}' was already removed from the server`
         )
-        setTimeout(()=>{
+        setTimeout(() => {
           setErrorMessage(null)
-        },5000)
+        }, 5000)
         setNotes(notes.filter(n => n.id !== id))
       })
   }
 
-
-
-  // console.log(notes)
   const addNote = (event) => {
     event.preventDefault()
-    // console.log("button clicked", event.target)
     const noteObject = {
       content: newNote,
-      important: Math.random() < 0.5,
-      id: String(notes.length + 1),
+      important: Math.random() < 0.5
     }
-
-    axios
-      .post("http://localhost:3002/notes", noteObject)
-      .then(response => {
-        setNotes(notes.concat(response.data))
-        setNewNote('')
-      })
-
     noteService
       .create(noteObject)
       .then(returnedNote => {
@@ -85,7 +59,6 @@ const App = () => {
   }
 
   const handleNewNote = (event) => {
-    // console.log(event.target.value)
     setNewNote(event.target.value)
   }
 
@@ -109,16 +82,16 @@ const App = () => {
         <input
           value={newNote}
           onChange={handleNewNote} />
-        <button type="save">submit</button>
+        <button type="submit">submit</button>
       </form>
       <Footer />
     </div>
   )
 }
 
-
 export default App
 
+// For currency exercise
 
 // import { useState,useEffect } from "react";
 // import axios from 'axios';
