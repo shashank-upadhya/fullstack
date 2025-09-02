@@ -7,18 +7,18 @@ const cors=require('cors')
 app.use(cors())
 let notes = [
   {
-    id: "1",
-    content: "HTML is easy",
+    id: '1',
+    content: 'HTML is easy',
     important: true
   },
   {
-    id: "2",
-    content: "Browser can execute only JavaScript",
+    id: '2',
+    content: 'Browser can execute only JavaScript',
     important: false
   },
   {
-    id: "3",
-    content: "GET and POST are the most important methods of HTTP protocol",
+    id: '3',
+    content: 'GET and POST are the most important methods of HTTP protocol',
     important: true
   }
 ]
@@ -53,7 +53,7 @@ const requestLogger = (request, response, next) => {
 
 
 
-app.get('/',(request,response)=>{
+app.get('/',(request,response) => {
   response.send('<h1>Hello World</>')
 })
 
@@ -79,24 +79,24 @@ app.get('/api/notes/:id', (request, response,next) => {
     // })
 })
 
-app.delete('/api/notes/:id',(request,response)=>{
+app.delete('/api/notes/:id',(request,response) => {
   Note.findByIdAndDelete(request.params.id)
-    .then(result=>{
-        response.status(204).end()
+    .then(result => {
+      response.status(204).end()
     })
-    .catch(error=>next(error))
+    .catch(error => next(error))
 })
 
-const generatedId=()=>{
-  const maxId=notes.length>0
-    ? Math.max(...notes.map(n=>Number(n.id))) : 0
+// const generatedId=()=>{
+//   const maxId=notes.length>0
+//     ? Math.max(...notes.map(n=>Number(n.id))) : 0
 
-  return String(maxId+1)
-}
+//   return String(maxId+1)
+// }
 
-app.post('/api/notes',(request,response)=>{
+app.post('/api/notes',(request,response) => {
   const body=request.body
-  
+
   if(!body.content){
     return response.status(400).json({
       error:'content is missing'
@@ -108,7 +108,7 @@ app.post('/api/notes',(request,response)=>{
     important: body.important||false
   })
 
-  note.save().then(savedNote=>{
+  note.save().then(savedNote => {
     response.json(savedNote)
   })
 
@@ -117,7 +117,7 @@ app.post('/api/notes',(request,response)=>{
   //   important:body.important||false,
   //   id:generatedId()
   // }
-  
+
   // notes=notes.concat(note)
 
   // console.log(note)
@@ -154,7 +154,7 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
+  }
 
   next(error)
 }
@@ -164,6 +164,6 @@ app.use(errorHandler)
 
 
 const PORT = process.env.PORT || 3001
-app.listen(PORT,'0.0.0.0',()=>{
+app.listen(PORT,'0.0.0.0',() => {
   console.log(`Server running on PORT ${PORT}`)
 })
