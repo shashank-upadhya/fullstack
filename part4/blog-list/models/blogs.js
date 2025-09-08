@@ -7,7 +7,7 @@ const blogSchema = mongoose.Schema({
   likes: Number,
 })
 
-const Blog = mongoose.model('Blog', blogSchema)
+// const Blog = mongoose.model('Blog', blogSchema)
 
 
 blogSchema.set('toJSON', {
