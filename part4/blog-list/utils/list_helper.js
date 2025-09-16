@@ -49,7 +49,34 @@ const totalLikes = (blogs) => {
       return blogs.reduce(likes,0)
   }
 
+
+  const favoriteBlog = (blogs) => {
+  if (blogs.length === 0) return null
+
+  let favorite = blogs[0] // Start by assuming the first blog is the favorite
+
+  for (let i = 1; i < blogs.length; i++) {
+    if (blogs[i].likes > favorite.likes) {
+      favorite = blogs[i] // Update favorite if current blog has more likes
+    }
+  }
+
+  return favorite
+}
+
+
+// const favoriteBlog = (blogs) => {
+//   return blogs.reduce((mostLiked, blog) => {
+//     return (blog.likes > mostLiked.likes) ? blog : mostLiked
+//   }, blogs[0])
+// }
+
+// const favoriteBlog = (blogs) => {
+//   const compare = (a, b) => a.likes - b.likes
+//   return blogs.sort(compare)[0]
+// }
+
 module.exports = {
-  dummy,totalLikes
+  dummy,totalLikes,favoriteBlog
 }
 
