@@ -50,19 +50,38 @@ const totalLikes = (blogs) => {
   }
 
 
-  const favoriteBlog = (blogs) => {
+//   const favoriteBlog = (blogs) => {
+//   if (blogs.length === 0) return null
+
+//   let favorite = blogs[0] // Start by assuming the first blog is the favorite
+
+//   for (let i = 1; i < blogs.length; i++) {
+//     if (blogs[i].likes > favorite.likes) {
+//       favorite = blogs[i] // Update favorite if current blog has more likes
+//     }
+//   }
+
+//   return favorite
+// }
+
+// Another approach using reduce
+const favoriteBlog = (blogs) => {
   if (blogs.length === 0) return null
-
-  let favorite = blogs[0] // Start by assuming the first blog is the favorite
-
-  for (let i = 1; i < blogs.length; i++) {
-    if (blogs[i].likes > favorite.likes) {
-      favorite = blogs[i] // Update favorite if current blog has more likes
-    }
-  }
-
-  return favorite
+  return blogs.reduce((mostLiked, blog) => (blog.likes > mostLiked.likes ? blog : mostLiked), blogs[0])
 }
+
+// const mostBlogs = (blogs) => {
+//   const authorBlogCount = {}
+
+//   blogs.forEach((blog) => {
+//     if (authorBlogCount[blog.author]) {
+//       authorBlogCount[blog.author] += 1
+//     } else {
+//       authorBlogCount[blog.author] = 1
+//     }
+//   })
+//   return authorBlogCount
+// }
 
 
 // const favoriteBlog = (blogs) => {
@@ -77,6 +96,6 @@ const totalLikes = (blogs) => {
 // }
 
 module.exports = {
-  dummy,totalLikes,favoriteBlog
+  dummy,totalLikes,favoriteBlog,mostBlogs
 }
 
