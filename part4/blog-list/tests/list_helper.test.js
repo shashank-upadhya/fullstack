@@ -118,6 +118,11 @@ describe('favorite blog', () => {
       likes: 12,
       __v: 0})
   })
+
+  test('most blogs by author', () => {
+    const result = listHelper.mostBlogs(blogs)
+    assert.deepStrictEqual(result,expected=undefined)
+  })
 })
   
 
