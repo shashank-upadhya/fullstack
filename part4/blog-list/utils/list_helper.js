@@ -1,3 +1,5 @@
+const lodash=require('lodash')
+
 const blogs = [
   {
     _id: "5a422a851b54a676234d17f7",
@@ -69,6 +71,18 @@ const favoriteBlog = (blogs) => {
   if (blogs.length === 0) return null
   return blogs.reduce((mostLiked, blog) => (blog.likes > mostLiked.likes ? blog : mostLiked), blogs[0])
 }
+
+const mostBlogs = (blogs) => {
+  const authorCount=lodash(blogs).countBy('author').entries().maxBy(lodash.last)
+
+  const res={
+    author: authorCount[0],
+    blogs:authorCount[1]
+  }
+  console.log(res)
+  return res
+}
+
 
 // const mostBlogs = (blogs) => {
 //   const authorBlogCount = {}
